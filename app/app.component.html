@@ -1,0 +1,27 @@
+<div class="content" scrollable (scrollPosition)="scrollHandler($event)">
+  <div class="container">
+    <div class="my-3">
+      <button (click)="ngOnInit()" class="btn btn-primary mx-1">Reset</button>
+      <br>
+      <span>Filter by:</span>
+      <button *ngFor="let categoria of categoriasTest | async" (click)="filtrarData(categoria.nombre)" class="btn btn-outline-primary btn-sm mx-1">
+        {{ categoria.nombre }}
+      </button>
+    </div>
+
+    <app-loading-spinner  *ngIf="page.loading | async"></app-loading-spinner>
+    <div class="row no-gutters">
+      <div *ngFor="let aviso of page.data | async" class="col-6 my-1 px-1">
+        <div class="p-2 border rounded" *ngIf="aviso.publicado">
+        <div class="d-flex justify-content-between mb-1">
+          <div class="badge badge-pill badge-light border font-weight-normal">{{ aviso.categoria }}</div>
+          <div class="small">{{ aviso.fechaCreacion | date: 'shortDate' }}</div>
+        </div>
+        <h6 class="font-weight-bold">{{ aviso.titulo }}</h6>
+        <p class="small npb">{{ aviso.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+    <p class="tag is-warning" *ngIf="page.done | async">I ran out of boats!</p>
+  </div>
+</div>
